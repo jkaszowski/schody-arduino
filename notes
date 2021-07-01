@@ -1,0 +1,4 @@
+D2 - D13 wyjścia sterujące kolejnymi schodami (stan niski - włączony)
+A0-A4 wyjścia sterujące schodami (stan niski - włączony)
+A5, A6 fotokomórka (stan wysoki po przecięciu)
+A7 - fotorezystor (próg załączenia układu)
