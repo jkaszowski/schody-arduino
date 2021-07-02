@@ -1,23 +1,28 @@
 #include "Arduino.h"
 
 #define pierwszyDol 4
-#define pierwszyGora 18
+#define pierwszyGora 17
 #define czas_miedzy_stopniami 200
 #define czas_miedzy_zapaleniem_a_gaszeniem 2000
 
-int progFotokomorki = 100;
+#define ON 1
+#define OFF 0
+
+#define fotokomorkaGora A4
+#define fotokomorkaDol A5
+int progFotokomorki = 512;
 int progFotorezystor = 100;
 
 void setup() {
   
-  for(byte n = minWejscie; n < maxWejscie; n++){//ustawienie wyjsc
+  for(byte n = pierwszyDol; n < pierwszyGora; n++){//ustawienie wyjsc
     pinMode(n,OUTPUT);
-    digitalWrite(n,HIGH);//wylacz po zadeklarowaniu jako wyjscie
+    digitalWrite(n,OFF);//wylacz po zadeklarowaniu jako wyjscie
   }
 
   //fotokomórki
-  pinMode(A5,INPUT); //gorna fotokomórka
-  pinMode(A6,INPUT); //dolna fotokomórka
+  //pinMode(fotokomorkaGora,INPUT); //gorna fotokomórka
+  //pinMode(fotokomorkaDol,INPUT); //dolna fotokomórka
 
   //fotorezystor
   pinMode(A7,INPUT);
@@ -25,13 +30,13 @@ void setup() {
 
 void loop() {
 
-  if(analogRead(A7)>progFotorezystor){
+  //if(analogRead(A7)>progFotorezystor){
 
-    if(analogRead(A5) < progFotokomorki){
+    if(analogRead(fotokomorkaGora) < progFotokomorki){
       //zapalaj od góry do dołu
       for (byte i = pierwszyGora; i >=pierwszyDol ; i--)
       {
-        digitalWrite(i,LOW);
+        digitalWrite(i,ON);
         delay(czas_miedzy_stopniami);
       }
 
@@ -40,17 +45,17 @@ void loop() {
       //gaś od góry do dołu
       for (byte i = pierwszyGora; i >=pierwszyDol ; i--)
       {
-        digitalWrite(i,HIGH);
+        digitalWrite(i,OFF);
         delay(czas_miedzy_stopniami);
       }
     }
 
 
-    if(analogRead(A6) < progFotokomorki){
+    if(analogRead(fotokomorkaDol) < progFotokomorki){
       //zapalaj od dołu do góry
       for (byte i = pierwszyDol; i <=pierwszyGora ; i++)
       {
-        digitalWrite(i,LOW);
+        digitalWrite(i,ON);
         delay(czas_miedzy_stopniami);
       }
 
@@ -59,9 +64,9 @@ void loop() {
       //gaś od 
       for (byte i = pierwszyDol; i <=pierwszyGora ; i++)
       {
-        digitalWrite(i,HIGH);
+        digitalWrite(i,OFF);
         delay(czas_miedzy_stopniami);
       }
     }
-  }
+  //}
 }
